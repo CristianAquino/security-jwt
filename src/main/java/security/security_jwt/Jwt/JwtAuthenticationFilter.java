@@ -1,6 +1,5 @@
 package security.security_jwt.Jwt;
 
-import ch.qos.logback.core.util.StringUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,6 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String username;
 
         if(token == null){
+            // devolvemos a la cadena de filtros el control
             filterChain.doFilter(request,response);
             return;
         }
@@ -59,7 +59,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private  String getTokenFromRequest(HttpServletRequest request){
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if(StringUtils.hasText(authHeader)&& authHeader.startsWith("Bearer ")){
+        if(StringUtils.hasText(authHeader) && authHeader.startsWith("Bearer ")){
             return authHeader.split(" ")[1];
         }
         return null;
