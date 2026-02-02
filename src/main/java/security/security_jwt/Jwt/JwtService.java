@@ -22,6 +22,8 @@ public class JwtService {
     private static String SECRET_KEY="miclavesupersegurade32caracteresomas123456789";
 
     public String getToken(UserDetails user) {
+        // HasMap para agregar informacion adicional
+        // en los claims del token
         return getToken(new HashMap<>(),user);
     }
 
@@ -38,10 +40,13 @@ public class JwtService {
 
     private Key getKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        // hmacShaKeyFor permite crear una nueva instancia de la key
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String getUsernameFromToken(String token) {
+        // recordemos que en el claims, en la seccion sub
+        // tenemos el id o username segun el caso
         return getClaim(token,Claims::getSubject);
     }
 

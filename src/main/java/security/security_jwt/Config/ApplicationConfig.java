@@ -21,12 +21,18 @@ public class ApplicationConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception{
+        // accedemos a la instancia del AuthenticationManager
+        // para devolverla
         return config.getAuthenticationManager();
     }
 
+    // metodo que devuelve el provider
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        // en base al grafico seteamos
+        // UserDetailsService
+        // PasswordEncoder
         authenticationProvider.setUserDetailsService(userDetailService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());
 
@@ -40,6 +46,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailService() {
+        // consultamos a la BD
         return username -> userRepository.findByUsername(username)
                 .orElseThrow(()->new UsernameNotFoundException("User not found"));
     }

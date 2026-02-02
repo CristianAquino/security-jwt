@@ -22,16 +22,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http
-                .csrf(csrf->csrf.disable())
+                .csrf(csrf->csrf.disable())// inhabilitamos cross
                 .authorizeHttpRequests(authRequest ->
                         authRequest
                                 .requestMatchers("/auth/**")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated())
-                .sessionManagement(sessionManager->sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authProvider)
+                .sessionManagement(sessionManager->
+                        sessionManager
+                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))// inhabilitamos sesiones
+                .authenticationProvider(authProvider)// especificamos el authentication provider
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                // agregamos el filtro jwtAuthenticationFilter configurado previamente
                 .build();
     }
 }

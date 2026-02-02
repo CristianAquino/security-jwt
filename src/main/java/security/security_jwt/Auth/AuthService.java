@@ -24,7 +24,11 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse login(LoginRequest req) {
+        // validamos credenciales comparando la contraseña enviada con la registrada en BD
+        // usando UserDetailService
+        // si no coincide salta exception
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(req.getUsername(),req.getPassword()));
+        // una vez validado obtenemos los datos
         UserDetails user = userRepository.findByUsername(req.getUsername()).orElseThrow();
         String token = jwtService.getToken(user);
         return AuthResponse
