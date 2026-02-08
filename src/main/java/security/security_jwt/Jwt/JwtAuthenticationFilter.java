@@ -32,6 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if(token == null){
             // devolvemos a la cadena de filtros el control
+            // es decir que continue con el sgt. filtro
             filterChain.doFilter(request,response);
             return;
         }
